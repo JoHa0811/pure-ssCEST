@@ -1,3 +1,4 @@
+git+https://github.com/schuenke/BMCTool.git@dynamics_new#egg=BMCTool
 certifi==2025.4.26
 charset-normalizer==3.4.2
 colorcet==3.1.0
