@@ -2,9 +2,8 @@
 
 This repository contains simple Python scripts used to recreate selected figures from the publication:
 
-**[Full Paper Title]**  
-[Johannes Hammacher, Christoph Kolbitsch, Patrick Schünke]  
-[Magnetic Resonance in Medicine], [in preparation]  
+**Pure Steady-State CEST**  
+Johannes Hammacher, Christoph Kolbitsch, Patrick Schünke
 [DOI or arXiv link]
 
 ## Overview
