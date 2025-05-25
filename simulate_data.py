@@ -1,3 +1,4 @@
+#%%
 import logging
 from pathlib import Path
 
@@ -13,7 +14,7 @@ def setup_logging():
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
 
-def process_file(file: Path, config_file: Path):
+def simulate_file_mag_development(file: Path, config_file: Path, return_simulated_data: bool = False, show_plot: bool = True, plot_z_spectra: bool = True ,store_dynamics: int = 2):
     """
     Simulate and process a single .seq file.
     
@@ -21,26 +22,35 @@ def process_file(file: Path, config_file: Path):
         file (Path): Path to the .seq file.
         config_file (Path): Path to the simulation configuration file.
     """
-    try:
-        logging.info(f"Processing: {file}")
-        simulated_returns_ss = simulate(
-            config_file=config_file,
-            seq_file=file,
-            show_plot=True,
-            store_dynamics=2,
-        )
-        offsets, m_z = simulated_returns_ss.get_zspec()
+    # try:
+    logging.info(f"Processing: {file}")
+    simulated_returns_ss = simulate(
+        config_file=config_file,
+        seq_file=file,
+        show_plot=show_plot,
+        store_dynamics=store_dynamics,
+    )
+    offsets, m_z = simulated_returns_ss.get_zspec()
+    if plot_z_spectra:
         plot_z(m_z=m_z, offsets=offsets)
         plt.plot(simulated_returns_ss.t_dyn, simulated_returns_ss.m_dyn.T[:, 4])
         plt.show()
-        
-        np.save(file.with_suffix(".npy"), simulated_returns_ss, allow_pickle=True)
-        logging.info(f"Saved simulation results: {file.with_suffix('.npy')}")
     
-    except Exception as e:
-        logging.error(f"Error processing {file}: {e}")
+    np.save(Path(file).with_suffix(".npy"), simulated_returns_ss, allow_pickle=True)
+    logging.info(f"Saved simulation results: {Path(file).with_suffix('.npy')}")
 
-def process_folder(folderpath: str, config_file_path: str):
+    if return_simulated_data:
+        return simulated_returns_ss
+    
+    # except Exception as e:
+    #     logging.error(f"Error processing {file}: {e}")
+        
+    
+#%%
+def process_folder(folderpath: str, config_file_path: str, return_simulated_data = False, show_plot = True, plot_z_spectra = True ,store_dynamics = 2):
+    
+    folder_sims = []
+    
     """
     Process all .seq files in the specified folder.
     
@@ -60,15 +70,20 @@ def process_folder(folderpath: str, config_file_path: str):
         return
     
     for file in folder.rglob("*.seq"):
-        process_file(file, config_file)
-
+        folder_sims.append(simulate_file_mag_development(file, config_file, return_simulated_data, show_plot, plot_z_spectra, store_dynamics))
+        logging.info(f"Processed file: {file}")
+        
+    return folder_sims
+#%%
 def main():
     """Main function to set paths and start processing."""
-    folderpath = "/echo/hammac01/BMCTool/src/bmctool/library/seq-library/fig2/more_slices"
-    config_file_path = "/echo/hammac01/BMCTool/src/bmctool/library/sim-library/phantoms/Barbituric_acid/barbituric_acid_3T_bmsim.yaml"
+    folderpath = "/echo/hammac01/SpiralssCEST/pulseq_sequences/fig2_longitudinal_magnetisation/"
+    config_file_path = "/echo/hammac01/SpiralssCEST/simulation_phantoms/barbituric_acid_3T_bmsim.yaml"
     
     process_folder(folderpath, config_file_path)
 
 if __name__ == "__main__":
     setup_logging()
     main()
+
+# %%

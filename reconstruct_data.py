@@ -60,7 +60,7 @@ def reconstruct_file(file: Path):
         logging.error(f"Error reconstructing {file}: {e}")
 
 
-def process_folder(folderpath: str):
+def reconstruct_folder(folderpath: str):
     """
     Process all HDF5 files in the specified folder.
 
@@ -92,7 +92,7 @@ def main():
     )
     args = parser.parse_args()
 
-    process_folder(args.folderpath)
+    reconstruct_folder(args.folderpath)
 
 
 if __name__ == "__main__":
