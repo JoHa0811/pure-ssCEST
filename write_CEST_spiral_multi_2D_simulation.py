@@ -13,6 +13,7 @@ from utils.create_ismrmrd_header import create_hdr
 from utils.vds import vds
 from utils.write_seq_definitions import write_seq_definitions
 
+#%%
 # choose flags
 FLAG_GOLDEN_ANGLE = True  # toggle use of golden angle
 FLAG_PLOTS = False  # toggle plotting of gradients/trajectory etc
