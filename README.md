@@ -15,3 +15,13 @@ Each script in this repository is self-contained and can be run independently. W
 To install the dependencies, you can run:
 ```bash
 pip install -r requirements.txt
+````
+
+## Recreate publication figures
+To recreate the respective figure from the publication, simply run the corresponding script.
+
+## Reconstruct raw data
+For an example of the reconstruction pipeline, please see reconstrucion_example.py
+
+## Generate Pulseq sequences
+To generate example sequences used in the publication, simply run the respective write_CEST* script.
